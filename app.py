@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from data_models import db, Author, Book  # Import db, Author, and Book from data_models.py
 import os
@@ -12,25 +12,25 @@ app = Flask(__name__)
 working_directory = os.getcwd()
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{working_directory}/data/library.sqlite'  #  relative path!!!!!!!!
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'supersecretkey'  # Required for flashing messages
 
 
 # Initialize SQLAlchemy with the Flask app
 db.init_app(app)
 
 # Create tables if they don't exist
-with app.app_context():
-  try:
-    db.create_all()
-    print("Database tables created successfully!")
-  except Exception as e:
-    print(f"Error creating database tables: {e}")
+# with app.app_context():
+#   try:
+#     db.create_all()
+#     print("Database tables created successfully!")
+#   except Exception as e:
+#     print(f"Error creating database tables: {e}")
 
 # Home page route
 @app.route('/')
 def home():
     # Query all books and their authors
     books = Book.query.all()
-
     # Pass data to the template
     return render_template('home.html', books=books)
     
@@ -103,3 +103,7 @@ def add_book():
     authors = Author.query.all()
     return render_template('add_book.html', authors=authors)
 
+
+# Run the Flask app
+if __name__ == '__main__':
+    app.run(debug=True)

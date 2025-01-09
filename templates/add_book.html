@@ -1,15 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  </head>
-  <body>
+<html>
+<head>
+    <title>Add Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<h1>Add a New Book</h1>
+<form method="POST" action="{{ url_for('add_book') }}">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" required><br><br>
 
-  <form action="/add_author" method="POST">
-  <!-- Add the form here -->
-  </form>
+    <label for="isbn">ISBN:</label><br>
+    <input type="text" id="isbn" name="isbn" required><br><br>
 
-  </body>
+    <label for="publication_year">Publication Year:</label><br>
+    <input type="number" id="publication_year" name="publication_year"><br><br>
+
+    <label for="author_id">Author:</label><br>
+    <select id="author_id" name="author_id">
+        {% for author in authors %}
+            <option value="{{ author.id }}">{{ author.name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Add Book</button>
+</form>
+</body>
 </html>
+

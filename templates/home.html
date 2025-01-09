@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  </head>
-  <body>
+    <title>Library Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<h1>Library Home Page</h1>
 
-    {% for book in books %}
-    <div> <h3>{{ book.title }}</h3>
-    </div>
-    {% endfor %}
+<ul>
+{% for book in books %}
+<li>{{ book.title }} by {{ book.author.name }}
+<img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
+alt="{{ book.title }} cover image"></li>
+{% endfor %}
+</ul>
 
-  </body>
+<a href="/add_author">Add Author</a> | <a href="/add_book">Add Book</a>
+
+</body>
 </html>

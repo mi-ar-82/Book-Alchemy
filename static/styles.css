@@ -1,0 +1,60 @@
+/* General styles for the entire application */
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5; /* Light gray background */
+    color: #333; /* Dark gray text */
+}
+
+/* Header styles */
+h1, h2, h3 {
+    font-family: 'Verdana', 'Geneva', sans-serif;
+    color: #222; /* Slightly darker text for headers */
+}
+
+/* Form styles */
+form {
+    font-family: 'Tahoma', sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff; /* White background for forms */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px;
+}
+
+/* Button styles */
+button {
+    font-family: 'Arial', sans-serif;
+    padding: 10px 15px;
+    background-color: #007BFF; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* List styles */
+ul {
+    list-style-type: none; /* Remove bullet points */
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* Links */
+a {
+    font-family: 'Arial', sans-serif;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
