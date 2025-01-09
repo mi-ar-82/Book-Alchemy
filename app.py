@@ -31,22 +31,36 @@ db.init_app(app)
 # Home page route
 @app.route('/')
 def home():
-    # Get the sorting parameter from the query string
+    keyword = request.args.get('keyword', '').strip()
     sort_by = request.args.get('sort_by', 'title_asc')
 
-    # Determine sorting logic
+    # Base query
+    query = Book.query
+
+    # Apply search filter if keyword is provided
+    if keyword:
+        query = query.join(Author).filter(
+            (Book.title.ilike(f"%{keyword}%")) | (Author.name.ilike(f"%{keyword}%"))
+        )
+
+    # Apply sorting
     if sort_by == 'title_asc':
-        books = Book.query.order_by(asc(Book.title)).all()
+        query = query.order_by(Book.title.asc())
     elif sort_by == 'title_desc':
-        books = Book.query.order_by(desc(Book.title)).all()
+        query = query.order_by(Book.title.desc())
     elif sort_by == 'author_asc':
-        books = Book.query.join(Author).order_by(asc(Author.name)).all()
+        query = query.join(Author).order_by(Author.name.asc())
     elif sort_by == 'author_desc':
-        books = Book.query.join(Author).order_by(desc(Author.name)).all()
-    else:
-        books = Book.query.all()  # Default case
+        query = query.join(Author).order_by(Author.name.desc())
+
+    books = query.all()
+
+    # Flash a message if no books match the search criteria
+    if keyword and not books:
+        flash(f"No books found matching '{keyword}'.", "info")
 
     return render_template('home.html', books=books)
+
     
 # Route to add an author
 @app.route('/add_author', methods=['GET', 'POST'])

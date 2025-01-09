@@ -18,7 +18,7 @@
             color: #4CAF50;
             margin-bottom: 20px;
         }
-        .actions {
+        .actions, .search-form {
             margin-bottom: 20px;
         }
         .actions a {
@@ -29,13 +29,10 @@
             border-radius: 5px;
             margin-right: 10px;
         }
-        form {
-            margin-bottom: 20px;
-        }
         form label {
             font-weight: bold;
         }
-        select, button {
+        input[type="text"], select, button {
             padding: 5px 10px;
             margin-left: 10px;
             font-size: 14px;
@@ -87,6 +84,13 @@
           <a href="/add_book">Add Book</a>
         </div>
 
+        <!-- Search Form -->
+        <form method="GET" action="/" class="search-form">
+            <label for="keyword">Search Books:</label>
+            <input type="text" name="keyword" id="keyword" placeholder="Enter title or author name">
+            <button type="submit">Search</button>
+        </form>
+
         <!-- Sorting Form -->
         <form method="GET" action="/">
             <label for="sort_by">Sort by:</label>
@@ -101,7 +105,6 @@
 
         <!-- Books List Header -->
         <h2>Books List</h2>
-        <p>Below is the list of books available in the library. Each entry includes the book's title, its author's name, and the year it was published.</p>
 
         <!-- Books Table -->
         {% if books %}
