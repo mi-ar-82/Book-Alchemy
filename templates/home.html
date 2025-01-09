@@ -4,35 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            padding-left: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .actions {
+            margin-bottom: 20px;
+        }
+        .actions a {
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        form label {
+            font-weight: bold;
+        }
+        select, button {
+            padding: 5px 10px;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .no-books {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h1>Library Home Page</h1>
+    <div class="container">
+        <h1>Library Home</h1>
 
-    <!-- Display flash messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul>
-          {% for category, message in messages %}
-            <li style="color: {% if category == 'error' %}red{% else %}green{% endif %};">
-              {{ message }}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              {% for category, message in messages %}
+                  <p class="{{ category }}">{{ message }}</p>
+              {% endfor %}
+          {% endif %}
+        {% endwith %}
 
-    <!-- Book List -->
-    <ul>
+        <!-- Action Buttons -->
+        <div class="actions">
+          <a href="/add_author">Add Author</a>
+          <a href="/add_book">Add Book</a>
+        </div>
+
+        <!-- Sorting Form -->
+        <form method="GET" action="/">
+            <label for="sort_by">Sort by:</label>
+            <select name="sort_by" id="sort_by">
+                <option value="title_asc">Title (A-Z)</option>
+                <option value="title_desc">Title (Z-A)</option>
+                <option value="author_asc">Author (A-Z)</option>
+                <option value="author_desc">Author (Z-A)</option>
+            </select>
+            <button type="submit">Sort</button>
+        </form>
+
+        <!-- Books List Header -->
+        <h2>Books List</h2>
+        <p>Below is the list of books available in the library. Each entry includes the book's title, its author's name, and the year it was published.</p>
+
+        <!-- Books Table -->
         {% if books %}
-            {% for book in books %}
-                <li><strong>{{ book.title }}</strong> by {{ book.author.name }}</li>
-            {% endfor %}
+          <table>
+              <thead>
+                  <tr>
+                      <th>Title</th>
+                      <th>Author</th>
+                      <th>Publication Year</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for book in books %}
+                  <tr>
+                      <td>{{ book.title }}</td>
+                      <td>{{ book.author.name }}</td>
+                      <td>{{ book.publication_year }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
         {% else %}
-            <p>No books found in the library. Add some books!</p>
+          <p class="no-books">No books found in the library. Add some books!</p>
         {% endif %}
-    </ul>
-
-    <a href="/add_author">Add Author</a> | <a href="/add_book">Add Book</a>
+    </div>
 </body>
 </html>

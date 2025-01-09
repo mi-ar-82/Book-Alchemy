@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from data_models import db, Author, Book  # Import db, Author, and Book from data_models.py
 import os
 from datetime import datetime
+from sqlalchemy import asc, desc
 
 # Ensure 'data' directory exists
 os.makedirs('data', exist_ok=True)
@@ -30,9 +31,21 @@ db.init_app(app)
 # Home page route
 @app.route('/')
 def home():
-    # Query all books and their authors
-    books = Book.query.all()
-    # Pass data to the template
+    # Get the sorting parameter from the query string
+    sort_by = request.args.get('sort_by', 'title_asc')
+
+    # Determine sorting logic
+    if sort_by == 'title_asc':
+        books = Book.query.order_by(asc(Book.title)).all()
+    elif sort_by == 'title_desc':
+        books = Book.query.order_by(desc(Book.title)).all()
+    elif sort_by == 'author_asc':
+        books = Book.query.join(Author).order_by(asc(Author.name)).all()
+    elif sort_by == 'author_desc':
+        books = Book.query.join(Author).order_by(desc(Author.name)).all()
+    else:
+        books = Book.query.all()  # Default case
+
     return render_template('home.html', books=books)
     
 # Route to add an author
