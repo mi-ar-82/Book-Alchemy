@@ -40,7 +40,9 @@ def home():
     # Apply search filter if keyword is provided
     if keyword:
         query = query.join(Author).filter(
-            (Book.title.ilike(f"%{keyword}%")) | (Author.name.ilike(f"%{keyword}%"))
+            (Book.title.ilike(f"%{keyword}%")) |
+            (Author.name.ilike(f"%{keyword}%")) |
+            (Book.publication_year.ilike(f"%{keyword}%"))
         )
 
     # Apply sorting
@@ -52,6 +54,10 @@ def home():
         query = query.join(Author).order_by(Author.name.asc())
     elif sort_by == 'author_desc':
         query = query.join(Author).order_by(Author.name.desc())
+    elif sort_by == 'year_asc':
+        query = query.order_by(Book.publication_year.asc())
+    elif sort_by == 'year_desc':
+        query = query.order_by(Book.publication_year.desc())
 
     books = query.all()
 
@@ -60,7 +66,6 @@ def home():
         flash(f"No books found matching '{keyword}'.", "info")
 
     return render_template('home.html', books=books)
-
     
 # Route to add an author
 @app.route('/add_author', methods=['GET', 'POST'])

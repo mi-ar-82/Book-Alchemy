@@ -3,39 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Author</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Add a New Author</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+<div class="container">
     <h1>Add a New Author</h1>
 
-    <!-- Display flash messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul>
-          {% for category, message in messages %}
-            <li style="color: {% if category == 'error' %}red{% else %}green{% endif %};">
-              {{ message }}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+     <!-- Flash Messages -->
+     {% with messages = get_flashed_messages(with_categories=true) %}
+       {% if messages %}
+           {% for category, message in messages %}
+               <p class="{{ category }}">{{ message }}</p>
+           {% endfor %}
+       {% endif %}
+     {% endwith %}
 
-    <!-- Author Form -->
-    <form method="POST" action="{{ url_for('add_author') }}">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
+     <!-- Add Author Form -->
+     <form method="POST" action="/add_author">
+         <label for="name">Name:</label><br/>
+         <input type="text" id="name" name="name"><br/>
 
-        <label for="birth_date">Birth Date (YYYY-MM-DD):</label><br>
-        <input type="date" id="birth_date" name="birth_date"><br><br>
+         <label for="birth_date">Birth Date (YYYY-MM-DD):</label><br/>
+         <input type="date" id="birth_date" name="birth_date"><br/>
 
-        <label for="date_of_death">Date of Death (YYYY-MM-DD):</label><br>
-        <input type="date" id="date_of_death" name="date_of_death"><br><br>
+         <label for="date_of_death">Date of Death (YYYY-MM-DD):</label><br/>
+         <input type="date" id="date_of_death" name="date_of_death"><br/>
 
-        <button type="submit">Add Author</button>
-    </form>
+         <button type="submit">Add Author</button><br/>
+     </form>
 
-    <a href="/">Back to Home</a>
+     <!-- Back to Home -->
+     <a href="/">Back to Home</a><br/>
+</div>
 </body>
 </html>

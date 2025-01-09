@@ -3,29 +3,47 @@ body {
     font-family: 'Arial', 'Helvetica', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5; /* Light gray background */
-    color: #333; /* Dark gray text */
+    background-color: #000000; /* Black general background */
+    color: #333; /* Dark gray text for contrast */
+}
+
+/* Container styles */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White app background */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Header styles */
 h1, h2, h3 {
     font-family: 'Verdana', 'Geneva', sans-serif;
-    color: #222; /* Slightly darker text for headers */
+    color: #007BFF; /* Blue color for headers */
+    text-align: center;
 }
 
 /* Form styles */
 form {
-    font-family: 'Tahoma', sans-serif;
-    margin: 20px;
-    padding: 20px;
-    background-color: #fff; /* White background for forms */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
-/* Button styles */
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="date"], select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 4px;
+}
+
 button {
-    font-family: 'Arial', sans-serif;
     padding: 10px 15px;
     background-color: #007BFF; /* Blue button */
     color: white;
@@ -38,23 +56,64 @@ button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
 
-/* List styles */
-ul {
-    list-style-type: none; /* Remove bullet points */
-    padding-left: 0;
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-li {
-    margin-bottom: 10px;
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #007BFF; /* Blue header row */
+    color: white;
+}
+
+tr {
+    background-color: #ffffff; /* Same white background for all rows */
 }
 
 /* Links */
 a {
-    font-family: 'Arial', sans-serif;
-    color: #007BFF;
+    color: #007BFF; /* Blue links */
     text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Action buttons (Add Author and Add Book) */
+.actions {
+    margin-bottom: 20px; /* Adds space below the buttons */
+}
+
+.actions a {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-right: 10px;
+    background-color: #007BFF; /* Blue button */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.actions a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Flash messages */
+.flash-success {
+    padding: 10px;
+    background-color: #d4edda; /* Light green for success messages */
+    color: #155724; /* Dark green text for success messages */
+}
+
+.flash-error {
+    padding: 10px;
+    background-color: #f8d7da; /* Light red for error messages */
+    color: #721c24; /* Dark red text for error messages */
 }

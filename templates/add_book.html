@@ -3,46 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Book</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Add a New Book</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+<div class="container">
     <h1>Add a New Book</h1>
 
-    <!-- Display flash messages -->
+    <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-        <ul>
           {% for category, message in messages %}
-            <li style="color: {% if category == 'error' %}red{% else %}green{% endif %};">
-              {{ message }}
-            </li>
+              <p class="{{ category }}">{{ message }}</p>
           {% endfor %}
-        </ul>
       {% endif %}
     {% endwith %}
 
-    <!-- Book Form -->
-    <form method="POST" action="{{ url_for('add_book') }}">
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
+    <!-- Add Book Form -->
+    <form method="POST" action="/add_book">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="Enter book title" required>
 
-        <label for="isbn">ISBN:</label><br>
-        <input type="text" id="isbn" name="isbn" required><br><br>
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" name="isbn" placeholder="Enter ISBN number" required>
 
-        <label for="publication_year">Publication Year:</label><br>
-        <input type="number" id="publication_year" name="publication_year"><br><br>
+        <label for="publication_year">Publication Year:</label>
+        <input type="number" id="publication_year" name="publication_year" placeholder="Enter publication year" required>
 
-        <label for="author_id">Author:</label><br>
-        <select id="author_id" name="author_id">
+        <label for="author_id">Author:</label>
+        <select id="author_id" name="author_id" required>
+            <!-- Dynamically populate authors -->
             {% for author in authors %}
                 <option value="{{ author.id }}">{{ author.name }}</option>
             {% endfor %}
-        </select><br><br>
+        </select>
 
+        <!-- Submit Button -->
         <button type="submit">Add Book</button>
     </form>
 
+    <!-- Back to Home -->
     <a href="/">Back to Home</a>
+</div>
 </body>
 </html>
