@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
 from data_models import db, Author, Book  # Import db, Author, and Book from data_models.py
 import os
 from datetime import datetime
-from sqlalchemy import asc, desc
+
 
 # Ensure 'data' directory exists
 os.makedirs('data', exist_ok=True)
@@ -174,4 +173,4 @@ def delete_book(book_id):
 
 # Run the Flask app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug = True, host = '0.0.0.0', port = 5002)
