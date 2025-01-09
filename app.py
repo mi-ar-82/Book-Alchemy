@@ -24,6 +24,15 @@ with app.app_context():
     print("Database tables created successfully!")
   except Exception as e:
     print(f"Error creating database tables: {e}")
+
+# Home page route
+@app.route('/')
+def home():
+    # Query all books and their authors
+    books = Book.query.all()
+
+    # Pass data to the template
+    return render_template('home.html', books=books)
     
 # Route to add an author
 @app.route('/add_author', methods=['GET', 'POST'])
