@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from data_models import db, Author, Book  # Import db, Author, and Book from data_models.py
 import os
+from datetime import datetime
 
 # Ensure 'data' directory exists
 os.makedirs('data', exist_ok=True)
@@ -43,6 +44,14 @@ def add_author():
         birth_date = request.form.get('birth_date')
         date_of_death = request.form.get('date_of_death')
 
+        # Convert dates to Python date objects
+        try:
+            birth_date = datetime.strptime(birth_date, '%Y-%m-%d').date() if birth_date else None
+            date_of_death = datetime.strptime(date_of_death, '%Y-%m-%d').date() if date_of_death else None
+        except ValueError:
+            flash("Invalid date format. Please use YYYY-MM-DD.", "error")
+            return redirect(url_for('add_author'))
+
         # Validate input
         if not name:
             flash("Author name is required!", "error")
@@ -51,8 +60,8 @@ def add_author():
         # Add new author to the database
         new_author = Author(
             name=name,
-            birth_date=birth_date if birth_date else None,
-            date_of_death=date_of_death if date_of_death else None
+            birth_date=birth_date,
+            date_of_death=date_of_death
         )
         try:
             db.session.add(new_author)
@@ -66,6 +75,7 @@ def add_author():
 
     # Render the form for GET requests
     return render_template('add_author.html')
+
 
 # Route to add a book
 @app.route('/add_book', methods=['GET', 'POST'])
