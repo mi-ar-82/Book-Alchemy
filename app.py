@@ -57,3 +57,40 @@ def add_author():
 
     # Render the form for GET requests
     return render_template('add_author.html')
+
+# Route to add a book
+@app.route('/add_book', methods=['GET', 'POST'])
+def add_book():
+    if request.method == 'POST':
+        # Retrieve form data
+        title = request.form.get('title')
+        isbn = request.form.get('isbn')
+        publication_year = request.form.get('publication_year')
+        author_id = request.form.get('author_id')
+
+        # Validate input
+        if not title or not isbn or not author_id:
+            flash("All fields are required!", "error")
+            return redirect(url_for('add_book'))
+
+        # Add new book to the database
+        new_book = Book(
+            title=title,
+            isbn=isbn,
+            publication_year=publication_year,
+            author_id=author_id
+        )
+        try:
+            db.session.add(new_book)
+            db.session.commit()
+            flash(f"Book '{title}' added successfully!", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error adding book: {str(e)}", "error")
+
+        return redirect(url_for('add_book'))
+
+    # Fetch authors for the dropdown menu
+    authors = Author.query.all()
+    return render_template('add_book.html', authors=authors)
+
