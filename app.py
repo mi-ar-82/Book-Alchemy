@@ -140,6 +140,28 @@ def add_book():
     authors = Author.query.all()
     return render_template('add_book.html', authors=authors)
 
+@app.route('/book/<int:book_id>/delete', methods=['POST'])
+def delete_book(book_id):
+    # Fetch the book by ID
+    book = Book.query.get_or_404(book_id)
+    author = book.author  # Get the associated author
+
+    try:
+        # Delete the book
+        db.session.delete(book)
+
+        # Check if the author has other books
+        if len(author.books) == 1:  # Only this book exists
+            db.session.delete(author)
+
+        db.session.commit()
+        flash(f"Book '{book.title}' deleted successfully!", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Error deleting book: {str(e)}", "error")
+
+    return redirect(url_for('home'))
+
 
 # Run the Flask app
 if __name__ == '__main__':
